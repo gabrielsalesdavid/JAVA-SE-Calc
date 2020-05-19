@@ -4,31 +4,28 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class Calculadora extends JFrame implements ActionListener, InterfaceCalculadora {
-	JLabel lblTitulo, lblAutor, lblLogo, lblCalculo1, lblCalculo2, lblResultado;
-	JButton btnSomar, btnSubtrair, btnMultiplicar, btnDividir, btnSair, btnLimpar;
-	JTextField jtfNumero1, jtfNumero2, jtfResultado;
-	ImageIcon icoLogo;
+public class Calculadora extends JFrame implements ActionListener {
+	JButton btnSomar, btnSubtrair, btnMultiplicar, btnDividir, btnSair,
+                btnCe, btnApagar, btnIgual, btn1, btn2, btn3, btn4, btn5, btn6,
+                btn7, btn8, btn9, btn0, btnPonto, btnBackSpace;
+	JTextField jtfCalRes;
 	JMenuBar jmbMenu;
 	JMenu jmCalculadora;
-	JMenuItem jmiSomar, jmiSubtrair, jmiMultiplicar, jmiDividir, jmiSair, jmiLimpar;
-	NumberFormat calculo;
-	HerancaCalculadora objCalculos;
-
+	JMenuItem jmiSomar, jmiSubtrair, jmiMultiplicar, jmiDividir, jmiSair,
+                jmiLimpar;
+        
+        char crTecla;
 	double numero1 = 0;
 	double numero2 = 0;
-	double resultado = 0;
+	double resultado = 0;        
+        boolean cliquei = false, segunNumero = false;
 
 	public Calculadora() {
 
@@ -37,91 +34,147 @@ public class Calculadora extends JFrame implements ActionListener, InterfaceCalc
 		setLocation(30, 40);
 		setResizable(true);
 		getContentPane().setBackground(Color.black);
-		getContentPane().setLayout(null);
+		getContentPane().setLayout(null);             
+                
+                jtfCalRes = new JTextField();
+		getContentPane().add(jtfCalRes);
+		jtfCalRes.addActionListener(this);
+		jtfCalRes.setBounds(80, 20, 470, 40);
+                jtfCalRes.setForeground(Color.black);
+                jtfCalRes.setFont(new Font("Arial", Font.BOLD, 16));
+                
+                btnCe = new JButton("CE");
+		getContentPane().add(btnCe);
+                btnCe.addActionListener(this);
+		btnCe.setBounds(10, 20, 60, 40);		
+                btnCe.setForeground(Color.black);
+                btnCe.setFont(new Font("Arial", Font.BOLD, 18));
 
-		lblTitulo = new JLabel("Calculadora");
-		getContentPane().add("North", lblTitulo);
-		lblTitulo.setBounds(900, 20, 800, 80);
-		lblTitulo.setForeground(Color.red);
-		lblTitulo.setFont(new Font("Arial", Font.BOLD, 60));
-
-		lblAutor = new JLabel("Gabriel Sales");
-		getContentPane().add("West", lblAutor);
-		lblAutor.setBounds(1000, 980, 600, 60);
-		lblAutor.setForeground(Color.red);
-		lblAutor.setFont(new Font("Arial", Font.BOLD, 40));
-
-		lblLogo = new JLabel("Java");
-		icoLogo = new ImageIcon("C:/Users/Gabriel Sales David/Pictures/download.png");
-		lblLogo = new JLabel(icoLogo);
-		getContentPane().add(lblLogo);
-		lblLogo.setBounds(1500, 20, 400, 800);
-
-		lblCalculo1 = new JLabel("Calculo 1:");
-		getContentPane().add("West", lblCalculo1);
-		lblCalculo1.setBounds(190, 150, 200, 60);
-		lblCalculo1.setForeground(Color.red);
-		lblCalculo1.setFont(new Font("Arial", Font.BOLD, 30));
-
-		lblCalculo2 = new JLabel("Calculo 2:");
-		getContentPane().add("West", lblCalculo2);
-		lblCalculo2.setBounds(630, 150, 200, 60);
-		lblCalculo2.setForeground(Color.red);
-		lblCalculo2.setFont(new Font("Arial", Font.BOLD, 30));
-
-		lblResultado = new JLabel("Resultado:");
-		getContentPane().add("West", lblResultado);
-		lblResultado.setBounds(850, 300, 200, 60);
-		lblResultado.setForeground(Color.red);
-		lblResultado.setFont(new Font("Arial", Font.BOLD, 30));
-
-		btnSomar = new JButton("Somar");
+		btnSomar = new JButton("+");
 		getContentPane().add(btnSomar);
-		btnSomar.setBounds(60, 450, 200, 50);
 		btnSomar.addActionListener(this);
+		btnSomar.setBounds(450, 80, 100, 100);
+                btnSomar.setForeground(Color.black);
+                btnSomar.setFont(new Font("Arial", Font.BOLD, 14));
 
-		btnSubtrair = new JButton("Subtrair");
+		btnSubtrair = new JButton("-");
 		getContentPane().add(btnSubtrair);
-		btnSubtrair.setBounds(290, 450, 200, 50);
 		btnSubtrair.addActionListener(this);
+		btnSubtrair.setBounds(380, 120, 60, 40);
+                btnSubtrair.setForeground(Color.black);
+                btnSubtrair.setFont(new Font("Arial", Font.BOLD, 14));
 
-		btnMultiplicar = new JButton("Multiplicar");
+		btnMultiplicar = new JButton("x");
 		getContentPane().add(btnMultiplicar);
-		btnMultiplicar.setBounds(520, 450, 200, 50);
 		btnMultiplicar.addActionListener(this);
+		btnMultiplicar.setBounds(380, 170, 60, 40);
+                btnMultiplicar.setForeground(Color.black);
+                btnMultiplicar.setFont(new Font("Arial", Font.BOLD, 14));
 
-		btnDividir = new JButton("Dividir");
+		btnDividir = new JButton("/");
 		getContentPane().add(btnDividir);
-		btnDividir.setBounds(750, 450, 200, 50);
 		btnDividir.addActionListener(this);
+		btnDividir.setBounds(380, 220, 60, 40);
+                btnDividir.setForeground(Color.black);
+                btnDividir.setFont(new Font("Arial", Font.BOLD, 14));
 
 		btnSair = new JButton("Sair");
 		getContentPane().add(btnSair);
-		btnSair.setBounds(980, 450, 200, 50);
 		btnSair.addActionListener(this);
-
-		btnLimpar = new JButton("Limpar");
-		getContentPane().add("Center", btnLimpar);
-		btnLimpar.setBounds(1210, 450, 200, 50);
-		btnLimpar.addActionListener(this);
-
-		jtfNumero1 = new JTextField("0", 10);
-		getContentPane().add("Center", jtfNumero1);
-		jtfNumero1.setBounds(400, 150, 200, 40);
-		jtfNumero1.setFont(new Font("Arial", Font.BOLD, 30));
-
-		jtfNumero2 = new JTextField("0", 10);
-		getContentPane().add("Center", jtfNumero2);
-		jtfNumero2.setBounds(830, 150, 200, 40);
-		jtfNumero2.setFont(new Font("Arial", Font.BOLD, 30));
-
-		jtfResultado = new JTextField("0", 20);
-		getContentPane().add("Center", jtfResultado);
-		jtfResultado.setBounds(1050, 300, 200, 60);
-		jtfResultado.setFont(new Font("Arial", Font.BOLD, 30));
-		jtfResultado.setEditable(false);
-		calculo = NumberFormat.getInstance();
-		calculo.setMinimumFractionDigits(2);
+		btnSair.setBounds(450, 190, 100, 70);
+                btnSair.setForeground(Color.black);
+                btnSair.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn1 = new JButton("1");
+		getContentPane().add(btn1);
+		btn1.addActionListener(this);
+		btn1.setBounds(10, 80, 80, 50);
+                btn1.setForeground(Color.black);
+                btn1.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn2 = new JButton("2");
+		getContentPane().add(btn2);
+		btn2.addActionListener(this);
+		btn2.setBounds(100, 80, 80, 50);
+                btn2.setForeground(Color.black);
+                btn2.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn3 = new JButton("3");
+		getContentPane().add(btn3);
+		btn3.addActionListener(this);
+		btn3.setBounds(190, 80, 80, 50);
+                btn3.setForeground(Color.black);
+                btn3.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn4 = new JButton("4");
+		getContentPane().add(btn4);
+		btn4.addActionListener(this);
+		btn4.setBounds(10, 140, 80, 50);
+                btn4.setForeground(Color.black);
+                btn4.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn5 = new JButton("5");
+		getContentPane().add(btn5);
+		btn5.addActionListener(this);
+		btn5.setBounds(100, 140, 80, 50);
+                btn5.setForeground(Color.black);
+                btn5.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn6 = new JButton("6");
+		getContentPane().add(btn6);
+		btn6.addActionListener(this);
+		btn6.setBounds(190, 140, 80, 50);
+                btn6.setForeground(Color.black);
+                btn6.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn7 = new JButton("7");
+		getContentPane().add(btn7);
+		btn7.addActionListener(this);
+		btn7.setBounds(10, 200, 80, 50);
+                btn7.setForeground(Color.black);
+                btn7.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn8 = new JButton("8");
+		getContentPane().add(btn8);
+		btn8.addActionListener(this);
+		btn8.setBounds(100, 200, 80, 50);
+                btn8.setForeground(Color.black);
+                btn8.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn9 = new JButton("9");
+		getContentPane().add(btn9);
+		btn9.addActionListener(this);
+		btn9.setBounds(190, 200, 80, 50);
+                btn9.setForeground(Color.black);
+                btn9.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btn0 = new JButton("0");
+		getContentPane().add(btn0);
+		btn0.addActionListener(this); 
+		btn0.setBounds(280, 80, 90, 60);
+                btn0.setForeground(Color.black);
+                btn0.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btnIgual = new JButton("=");
+		getContentPane().add(btnIgual);
+		btnIgual.addActionListener(this);
+		btnIgual.setBounds(280, 150, 90, 100);
+                btnIgual.setForeground(Color.black);
+                btnIgual.setFont(new Font("Arial", Font.BOLD, 60));
+                
+                btnPonto = new JButton(".");
+		getContentPane().add(btnPonto);
+		btnPonto.addActionListener(this);
+		btnPonto.setBounds(380, 80, 60, 30);
+                btnPonto.setForeground(Color.black);
+                btnIgual.setFont(new Font("Arial", Font.BOLD, 14));
+                
+                btnBackSpace = new JButton("Backspace");
+		getContentPane().add(btnBackSpace);
+		btnBackSpace.addActionListener(this);
+		btnBackSpace.setBounds(10, 270, 540, 60);
+                btnBackSpace.setForeground(Color.black);
+                btnBackSpace.setFont(new Font("Arial", Font.BOLD, 22));
 
 		jmbMenu = new JMenuBar();
 		setJMenuBar(jmbMenu);
@@ -129,27 +182,31 @@ public class Calculadora extends JFrame implements ActionListener, InterfaceCalc
 		jmCalculadora = new JMenu("Calculos");
 		jmbMenu.add(jmCalculadora);
 
-		jmiSomar = new JMenuItem("Somar");
+		jmiSomar = new JMenuItem("+");
 		jmCalculadora.add(jmiSomar);
+                jmiSomar.addActionListener(this);
 
-		jmiSubtrair = new JMenuItem("Subtrair");
+		jmiSubtrair = new JMenuItem("-");
 		jmCalculadora.add(jmiSubtrair);
+                jmiSubtrair.addActionListener(this);
 
-		jmiMultiplicar = new JMenuItem("Multiplicar");
+		jmiMultiplicar = new JMenuItem("x");
 		jmCalculadora.add(jmiMultiplicar);
+                jmiMultiplicar.addActionListener(this);
 
-		jmiDividir = new JMenuItem("Dividir");
+		jmiDividir = new JMenuItem("/");
 		jmCalculadora.add(jmiDividir);
+                jmiDividir.addActionListener(this);
 
-		jmiLimpar = new JMenuItem("Limpar");
+		jmiLimpar = new JMenuItem("CE");
 		jmCalculadora.add(jmiLimpar);
+                jmiLimpar.addActionListener(this);
 
 		jmCalculadora.addSeparator();
 
 		jmiSair = new JMenuItem("Sair");
 		jmCalculadora.add(jmiSair);
-
-		objCalculos = new HerancaCalculadora();
+                jmiSair.addActionListener(this);
 	}
 
 	public static void main(String[] args) {
@@ -158,77 +215,121 @@ public class Calculadora extends JFrame implements ActionListener, InterfaceCalc
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) { 
+            
+                if(e.getSource() == btn1) {
+                    numeros("1");                    
+                }
+                
+                if(e.getSource() == btn2) {
+                    numeros("2");               
+                }
+                
+                if(e.getSource() == btn3) {
+                    numeros("3");                      
+                }
+                
+                if(e.getSource() == btn4) {
+                     numeros("4");                    
+                }
+                
+                if(e.getSource() == btn5) {
+                    numeros("5");                   
+                }
+                
+                if(e.getSource() == btn6) {
+                    numeros("6");                    
+                }
+                
+                if(e.getSource() == btn7) {
+                    numeros("7");                   
+                }
+                
+                if(e.getSource() == btn8) {
+                    numeros("8");                   
+                }
+                
+                if(e.getSource() == btn9) {
+                   numeros("9");                    
+                }
+                
+                if(e.getSource() == btn0) {
+                    numeros("0");                   
+                }
+                
+                if(e.getSource() == btnBackSpace) {  
+                int conta = jtfCalRes.getText().length();                  
+                  if(conta > 0) {
+                    jtfCalRes.setText(jtfCalRes.getText().substring(0, conta - 1));
+                 }         
+                }
+                
+                if (e.getSource() == btnSomar || e.getSource() == jmiSomar) { 
+                    if (segunNumero == true)
+                        calculado();                    
+                  calcular ('+');
+                  segunNumero = true;
+                }
 
-		if (e.getSource() == btnLimpar) {
-			limpar();
-		} else {
-			converter();
-		}
+		if (e.getSource() == btnSubtrair || e.getSource() == jmiSubtrair) { 
+                    if (segunNumero == true)
+                        calculado();
+                  calcular ('-');
+                  segunNumero = true;
+                }
 
-		if (e.getSource() == btnSomar) {
-//			resultado = numero1 + numero2;
-			jtfResultado.setText(String.valueOf(calculo.format(objCalculos.somar(numero1, numero2))));
-		}
+		if (e.getSource() == btnMultiplicar || e.getSource() == jmiMultiplicar) { 
+                    if (segunNumero == true)
+                        calculado();
+                  calcular ('*');
+                  segunNumero = true;
+                }
 
-		if (e.getSource() == btnSubtrair) {
-//			resultado = numero1 - numero2;
-			jtfResultado.setText(String.valueOf(calculo.format(objCalculos.subtrair(numero1, numero2))));
-		}
-
-		if (e.getSource() == btnMultiplicar) {
-//			resultado = numero1 * numero2;
-			jtfResultado.setText(String.valueOf(calculo.format(objCalculos.multiplicar(numero1, numero2))));
-		}
-
-		if (e.getSource() == btnDividir) {
-//			resultado = numero1 / numero2;
-			jtfResultado.setText(String.valueOf(calculo.format(objCalculos.dividir(numero1, numero2))));
-		}
-
+		if (e.getSource() == btnDividir || e.getSource() == jmiDividir) {
+                    if (segunNumero == true)
+                        calculado();
+                    calcular ('/');
+                    segunNumero = true;
+                }
+            
+                if(e.getSource() == btnCe || e.getSource() == jmiLimpar) {
+                    jtfCalRes.setText("");
+                }
+		
 		if (e.getSource() == btnSair || e.getSource() == jmiSair) {
 			System.exit(0);
 		}
+                
+                if (e.getSource() == btnIgual) {
+                    calculado();
+                }
 	}
-
-	@Override
-	public double somar(double numero1, double numero2) {
-		return numero1 + numero2;
-	}
-
-	@Override
-	public double subtrair(double numero1, double numero2) {
-		return numero1 - numero2;
-	}
-
-	@Override
-	public double multiplicar(double numero1, double numero2) {
-		return numero1 * numero2;
-	}
-
-	@Override
-	public double dividir(double numero1, double numero2) {
-		return numero1 / numero2;
-	}
-
-	@Override
-	public void converter() {
-		try {
-			numero1 = Double.parseDouble(jtfNumero1.getText());
-			numero2 = Double.parseDouble(jtfNumero2.getText());
-		} catch (NumberFormatException erroNumber) {
-			JOptionPane.showMessageDialog(null, "Digite um valor numérico! " + erroNumber);
-			JOptionPane.showMessageDialog(null, "O erro que deu é: " + erroNumber);
-			erroNumber.printStackTrace();
-			limpar();
-		}
-	}
-
-	@Override
-	public void limpar() {
-		jtfNumero1.setText("0");
-		jtfNumero2.setText("0");
-		jtfResultado.setText("0");
-		jtfNumero1.requestFocus();
-	}
+        public void calcular(char botao) {
+            cliquei = true;
+            crTecla = botao;
+            numero1 = Double.parseDouble(jtfCalRes.getText());
+        }
+        
+        public void numeros(String numero) {
+            
+            if (cliquei == true) 
+                    jtfCalRes.setText(numero);
+                     else 
+                        jtfCalRes.setText(jtfCalRes.getText() + numero);
+                        cliquei = false;           
+        }
+        
+        public void calculado() {
+            if (crTecla == '+')
+                            resultado = numero1 + Double.parseDouble(jtfCalRes.getText());
+                    else if (crTecla == '-')
+                            resultado = numero1 - Double.parseDouble(jtfCalRes.getText());
+                    else if (crTecla == '*')      
+                            resultado = numero1 * Double.parseDouble(jtfCalRes.getText());
+                    else if (crTecla == '/')     
+                            resultado = numero1 / Double.parseDouble(jtfCalRes.getText());
+                       
+                    jtfCalRes.setText(String.valueOf(resultado));
+                    cliquei = true;
+        }
 }
